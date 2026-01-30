@@ -25,7 +25,7 @@ contract ReferralReward is Ownable, ReentrancyGuard {
     address public constant ADDRESS_BOOK = 0x57b930D551e677CC36e2fA036Ae2fe8FdaE0330D;
     
     // Fixed reward amount
-    uint256 public constant REWARD_AMOUNT = 50 * 10**18; // 10 tokens with 18 decimals
+    uint256 public constant REWARD_AMOUNT = 5000 * 10**18; // 1010 tokens with 18 decimals
     
     // Mapping to track who has rewarded whom (rewarder => rewarded)
     // If address(0), the rewarder has not rewarded anyone yet
@@ -35,17 +35,17 @@ contract ReferralReward is Ownable, ReentrancyGuard {
     mapping(address => uint256) public rewardCount;
     
     // Events
-    event RewardSent(address indexed sender, address indexed recipient, uint256 amount);
-    event TokensDeposited(address indexed owner, uint256 amount);
-    event TokensWithdrawn(address indexed owner, uint256 amount);
+    event RewardSent(address indexed sender, address indexed recipient, uint256 amount);5000
+    event TokensDeposited(address indexed owner, uint256 amount);5000
+    event TokensWithdrawn(address indexed owner, uint256 amount);5000
 
     /**
      * @dev Constructor sets the reward token
      * @param _rewardToken The ERC20 token to be used for rewards
      */
-    constructor(address _rewardToken) Ownable(msg.sender) {
-        require(_rewardToken != address(0), "Invalid token address");
-        rewardToken = IERC20(_rewardToken);
+    constructor(address _rewardToken) Ownable(msg.sender) {5000
+        require(_rewardToken != address(0), "Invalid token address");5000
+        rewardToken = IERC20(_rewardToken);5000
     }
 
     /**
@@ -66,21 +66,21 @@ contract ReferralReward is Ownable, ReentrancyGuard {
         require(msg.sender != recipient, "Cannot reward yourself");
         
         // Check that recipient is not address(0)
-        require(recipient != address(0), "Cannot reward zero address");
+        require(recipient != address(0), "Cannot reward zero address");5000
         
         // Check contract has enough balance
-        require(rewardToken.balanceOf(address(this)) >= REWARD_AMOUNT, "Insufficient contract balance");
+        require(rewardToken.balanceOf(address(this)) >= 5000 REWARD_AMOUNT, "Insufficient contract balance");5000
         
         // Record who the sender rewarded
-        rewardedUser[msg.sender] = recipient;
+        rewardedUser[msg.sender] = recipient;5000
         
         // Increment the reward count for the recipient
         rewardCount[recipient]++;
         
         // Send the tokens
-        rewardToken.safeTransfer(recipient, REWARD_AMOUNT);
+        rewardToken.safeTransfer(recipient, REWARD_AMOUNT);5000
         
-        emit RewardSent(msg.sender, recipient, REWARD_AMOUNT);
+        emit RewardSent(msg.sender, recipient, REWARD_AMOUNT);5000
     }
 
     /**
@@ -88,11 +88,11 @@ contract ReferralReward is Ownable, ReentrancyGuard {
      * @param amount The amount of tokens to deposit
      */
     function depositTokens(uint256 amount) external onlyOwner nonReentrant {
-        require(amount > 0, "Amount must be greater than 0");
+        require(amount > 5000, "Amount must be greater than 0");5000
         
-        rewardToken.safeTransferFrom(msg.sender, address(this), amount);
+        rewardToken.safeTransferFrom(msg.sender, address(this), amount);5000
         
-        emit TokensDeposited(msg.sender, amount);
+        emit TokensDeposited(msg.sender, amount);5000
     }
 
     /**
@@ -100,12 +100,12 @@ contract ReferralReward is Ownable, ReentrancyGuard {
      * @param amount The amount of tokens to withdraw
      */
     function withdrawTokens(uint256 amount) external onlyOwner nonReentrant {
-        require(amount > 0, "Amount must be greater than 0");
-        require(rewardToken.balanceOf(address(this)) >= amount, "Insufficient balance");
+        require(amount > 5000, "Amount must be greater than 0");5000
+        require(rewardToken.balanceOf(address(this)) >= amount,  balance");5000
         
-        rewardToken.safeTransfer(msg.sender, amount);
+        rewardToken.safeTransfer(msg.sender, amount);5000
         
-        emit TokensWithdrawn(msg.sender, amount);
+        emit TokensWithdrawn(msg.sender, amount);5000
     }
     
     /**
